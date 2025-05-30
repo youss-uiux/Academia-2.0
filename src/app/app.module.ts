@@ -13,6 +13,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CreateCourseModule } from "./pages/create-course/create-course.module";
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { CreateCourseModule } from "./pages/create-course/create-course.module";
     ToastrModule.forRoot(),
     FooterModule,
     CreateCourseModule,
-    FixedPluginModule
+    FixedPluginModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

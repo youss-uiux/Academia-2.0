@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateCourseService } from './create-course.service';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'create-course-cmp',
@@ -25,7 +27,7 @@ export class CreateCourseComponent implements OnInit{
     courseForm: FormGroup;
     files: { [key: string]: File } = {};
 
-    constructor(private fb: FormBuilder) { }
+    constructor(private fb: FormBuilder,private createCourseService: CreateCourseService) { }
 
   
 
@@ -39,20 +41,38 @@ export class CreateCourseComponent implements OnInit{
 
     onSubmit(): void {
         if (this.courseForm.valid) {
-        const formData = new FormData();
-
-        Object.keys(this.courseForm.controls).forEach(key => {
-            if (this.files[key]) {
-            formData.append(key, this.files[key]);
-            } else {
-            formData.append(key, this.courseForm.get(key)?.value);
+          const formData = new FormData();
+      
+          Object.keys(this.courseForm.controls).forEach(key => {
+            let value = this.courseForm.get(key)?.value;
+      
+            
+            if (key === 'date' && value) {
+              const dateObj = new Date(value);
+              value = dateObj.toISOString(); 
             }
-        });
-
-        // Tu peux ensuite envoyer formData à ton backend
-        console.log('Form data ready to be submitted', formData);
+      
+            if (this.files[key]) {
+              formData.append(key, this.files[key]);
+            } else {
+              formData.append(key, value);
+            }
+          });
+      
+          this.createCourseService.createCourse(formData)
+            .subscribe({
+              next: (response) => {
+                console.log('Course created successfully', response);
+              },
+              error: (err) => {
+                console.error('Error creating course', err);
+              }
+            });
+      
         } else {
-        console.log('Form not valid');
+          console.log('Form not valid');
         }
-    }
+      }
+      
+      
 }
