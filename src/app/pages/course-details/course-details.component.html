@@ -1,66 +1,64 @@
-<div class="row">
-    <!-- Partie de gauche : infos générales -->
-    <div class="col-md-4">
-        <!-- Card principale d'infos du cours -->
-        <div class="card card-course">
-            <div class="card-body text-center">
-                <h5 class="title">{{ course.title }}</h5>
-                <p class="description text-muted">{{ course.auteur }}</p>
-    
-                <div class="tags text-center mb-2">
-                    <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
-                    <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <small class="text-muted">{{ course.date | date:'mediumDate' }}</small>
-            </div>
+<div class="container mt-4">
+
+    <!-- Partie haute : Titre + Auteur + Tags + Date + Description -->
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <h3 class="title">{{ course.title }}</h3>
+        <p class="text-muted mb-1">Auteur : {{ course.auteur }}</p>
+  
+        <div class="tags mb-2">
+          <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
+          <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
         </div>
-    
-        <!-- Card des médias -->
-        <div class="card mt-3">
-            <div class="card-header">
-                <h5 class="card-title">Documents & Médias</h5>
-            </div>
-            <div class="card-body text-center">
-                <!-- Images -->
-                <div *ngFor="let media of getMediaByType('image')">
-                    <img *ngIf="media.blobUrl" [src]="media.blobUrl" class="img-fluid rounded mb-3" alt="Image du cours" />
-                </div>
-                
-                <!-- Vidéos -->
-                <div *ngFor="let media of getMediaByType('video')">
-                    <video *ngIf="media.blobUrl" controls class="w-100 mb-3">
-                        <source [src]="media.blobUrl" type="video/mp4" />
-                    </video>
-                </div>
-                
-                <!-- Audios -->
-                <div *ngFor="let media of getMediaByType('audio')">
-                    <audio *ngIf="media.blobUrl" controls class="mb-3">
-                        <source [src]="media.blobUrl" type="audio/mpeg" />
-                    </audio>
-                </div>
-                
-                <!-- PDFs -->
-                <div *ngFor="let media of getMediaByType('pdf')">
-                    <a *ngIf="media.blobUrl" [href]="media.blobUrl" target="_blank" class="btn btn-outline-primary mb-3">
-                        Télécharger le PDF ({{media.filename}})
-                    </a>
-                </div>
-            </div>
+  
+        <p class="text-muted">
+          Date : {{ course.date | date:'mediumDate' }}
+        </p>
+      </div>
+  
+      <div class="card-footer">
+        <h5 class="card-title text-center">Description du cours</h5>
+        <div class="px-3 pb-3 text-justify">
+          {{ course.description }}
         </div>
+      </div>
     </div>
-    
-    <!-- Partie de droite : description du cours -->
-    <div class="col-md-8">
-        <div class="card card-user">
-            <div class="card-header">
-                <h5 class="card-title">Description du cours</h5>
-            </div>
-            <div class="card-body">
-                {{ course.description }}
-            </div>
+  
+    <!-- Partie basse : Médias -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title text-center">Documents & Médias</h5>
+      </div>
+      <div class="card-body">
+  
+        <!-- Images -->
+        <div *ngFor="let media of getMediaByType('image')" class="text-center mb-4">
+          <img *ngIf="media.blobUrl" [src]="media.blobUrl" class="img-fluid rounded" alt="Image du cours" />
         </div>
+  
+        <!-- Vidéos -->
+        <div *ngFor="let media of getMediaByType('video')" class="text-center mb-4">
+          <video *ngIf="media.blobUrl" controls class="w-100">
+            <source [src]="media.blobUrl" type="video/mp4" />
+          </video>
+        </div>
+  
+        <!-- Audios -->
+        <div *ngFor="let media of getMediaByType('audio')" class="text-center mb-4">
+          <audio *ngIf="media.blobUrl" controls>
+            <source [src]="media.blobUrl" type="audio/mpeg" />
+          </audio>
+        </div>
+  
+        <!-- PDFs -->
+        <div *ngFor="let media of getMediaByType('pdf')" class="text-center mb-4">
+          <a *ngIf="media.blobUrl" [href]="media.blobUrl" target="_blank" class="btn btn-outline-primary">
+            Télécharger le PDF ({{ media.filename }})
+          </a>
+        </div>
+  
+      </div>
     </div>
-</div>
+  
+  </div>
+  

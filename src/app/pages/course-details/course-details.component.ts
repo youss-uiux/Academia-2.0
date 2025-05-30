@@ -59,7 +59,7 @@ export class CourseDetailsComponent implements OnInit {
   }
 
   private addMediaItem(url: string, type: string): void {
-    const mediaInfo = this.extractMediaInfo(url);
+    const mediaInfo = this.extractMediaInfo(type,url);
     if (mediaInfo) {
       this.mediaItems.push({
         url,
@@ -90,13 +90,13 @@ export class CourseDetailsComponent implements OnInit {
     });
   }
 
-  extractMediaInfo(url: string): { type: string, filename: string } | null {
-    const regex = /\/media\/(video|audio|pdf|image)\/([^\/]+)$/;
+  extractMediaInfo(type:string ,url: string): { type: string, filename: string } | null {
+    const regex = /\/(media|Uploads)\/(video|audio|pdf|Images)\/([^\/]+)$/;
     const match = url.match(regex);
   
     if (match) {
       return {
-        type: match[1],
+        type: type,
         filename: match[2]
       };
     }
