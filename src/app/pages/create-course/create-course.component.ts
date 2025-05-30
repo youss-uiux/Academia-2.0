@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateCourseService } from './create-course.service';
+import Swal from 'sweetalert2';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -63,6 +64,8 @@ export class CreateCourseComponent implements OnInit{
             .subscribe({
               next: (response) => {
                 console.log('Course created successfully', response);
+                this.showCustomHtml(response);
+                this.courseForm.reset();
               },
               error: (err) => {
                 console.error('Error creating course', err);
@@ -74,5 +77,20 @@ export class CreateCourseComponent implements OnInit{
         }
       }
       
+      showCustomHtml(response:any) {
+        Swal.fire({
+          title: '<strong>Votre cours a été crée avec succès</strong>',
+          icon: 'info',
+          html:
+            `<b>Le nom du cours : ${response.title}</b>` ,
+          showCloseButton: true,
+          showCancelButton: true,
+          focusConfirm: false,
+          confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+          confirmButtonAriaLabel: 'Thumbs up, great!',
+          cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+          cancelButtonAriaLabel: 'Thumbs down',
+        });
+      }
       
 }
