@@ -3,69 +3,107 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseDetailsService } from './course-details.service';
 import { Course } from '../list-courses/list-courses.types';
 
+interface MediaItem {
+  url: string;
+  type: string;
+  blobUrl: string | null;
+  filename: string;
+}
+
 @Component({
   selector: 'app-course-detail',
   templateUrl: 'course-details.component.html'
 })
 export class CourseDetailsComponent implements OnInit {
-
   course!: Course;
+  mediaItems: MediaItem[] = [];
 
-  imageBlobUrl: string | null = null;
-  videoBlobUrl: string | null = null;
-  audioBlobUrl: string | null = null;
-  pdfBlobUrl: string | null = null;
-
-  constructor(private route: ActivatedRoute, private courseService: CourseDetailsService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private courseService: CourseDetailsService
+  ) {}
 
   ngOnInit(): void {
     const courseId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.courseService.getCourseById(courseId).subscribe({
-      next: (data) =>{
+      next: (data) => {
         this.course = data;
-       // Ensuite, pour chaque média, on traite séparément
-       this.loadMedia(this.course.imageUrl, 'image');
-       this.loadMedia(this.course.videoUrl, 'video');
-       this.loadMedia(this.course.audioUrl, 'audio');
-       this.loadMedia(this.course.pdfUrl, 'pdf');
-      } ,
+        this.initMediaItems();
+        this.loadAllMedia();
+      },
       error: (err) => console.error(err)
     });
   }
 
+  private initMediaItems(): void {
+    // Réinitialise la liste des médias
+    this.mediaItems = [];
+
+    // Ajoute tous les médias disponibles
+    if (this.course.imageUrl) {
+      this.addMediaItem(this.course.imageUrl, 'image');
+    }
+    if (this.course.videoUrl) {
+      this.addMediaItem(this.course.videoUrl, 'video');
+    }
+    if (this.course.audioUrl) {
+      this.addMediaItem(this.course.audioUrl, 'audio');
+    }
+    if (this.course.pdfUrl) {
+      this.addMediaItem(this.course.pdfUrl, 'pdf');
+    }
+
+    // Vous pourriez aussi gérer plusieurs médias du même type ici
+    // Par exemple si course.imagesUrls est un tableau
+  }
+
+  private addMediaItem(url: string, type: string): void {
+    const mediaInfo = this.extractMediaInfo(url);
+    if (mediaInfo) {
+      this.mediaItems.push({
+        url,
+        type: mediaInfo.type,
+        blobUrl: null,
+        filename: mediaInfo.filename
+      });
+    }
+  }
+
+  private loadAllMedia(): void {
+    this.mediaItems.forEach(item => {
+      this.loadMedia(item);
+    });
+  }
+
+  private loadMedia(item: MediaItem): void {
+    this.courseService.getMedia(item.type, item.filename).subscribe({
+      next: (blob) => {
+        // Créez l'URL Blob de manière sécurisée
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          item.blobUrl = event.target?.result as string;
+        };
+        reader.readAsDataURL(blob);
+      },
+      error: (err) => console.error(`Erreur lors du chargement du ${item.type}:`, err)
+    });
+  }
 
   extractMediaInfo(url: string): { type: string, filename: string } | null {
     const regex = /\/media\/(video|audio|pdf|image)\/([^\/]+)$/;
     const match = url.match(regex);
   
     if (match) {
-      const type = match[1];
-      const filename = match[2];
-      return { type, filename };
+      return {
+        type: match[1],
+        filename: match[2]
+      };
     }
-  
     return null;
   }
 
-  loadMedia(url: string, expectedType: string): void {
-    if (!url) return;
-
-    const mediaInfo = this.extractMediaInfo(url);
-    if (mediaInfo && mediaInfo.type === expectedType) {
-      this.courseService.getMedia(mediaInfo.type, mediaInfo.filename).subscribe({
-        next: (blob) => {
-          const objectUrl = URL.createObjectURL(blob);
-          switch (expectedType) {
-            case 'image': this.imageBlobUrl = objectUrl; break;
-            case 'video': this.videoBlobUrl = objectUrl; break;
-            case 'audio': this.audioBlobUrl = objectUrl; break;
-            case 'pdf': this.pdfBlobUrl = objectUrl; break;
-          }
-        },
-        error: (err) => console.error(`Erreur lors du chargement du ${expectedType}:`, err)
-      });
-    }
+  getMediaByType(type: string): MediaItem[] {
+    return this.mediaItems.filter(item => item.type === type);
   }
 }
-
