@@ -15,4 +15,9 @@ export class CourseDetailsService {
   getCourseById(id: number): Observable<Course> {
     return this.http.get<Course>(`${this.apiUrl}/${id}`);
   }
+
+  getMedia(fileType: string, fileName: string): Observable<Blob> {
+    const headers = new HttpHeaders().set('Accept', fileType);
+    return this.http.get(`/api/Courses/Media/${fileType}/${fileName}`, { headers, responseType: 'blob' });
+  }
 }
