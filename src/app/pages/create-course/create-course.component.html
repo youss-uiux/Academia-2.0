@@ -1,0 +1,64 @@
+<div class="container mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Create Course</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control" formControlName="title" placeholder="Enter Title">
+          </div>
+  
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" formControlName="description" placeholder="Enter Description"></textarea>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Tag 1</label>
+              <input type="text" class="form-control" formControlName="tag1" placeholder="Enter Tag 1">
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tag 2</label>
+              <input type="text" class="form-control" formControlName="tag2" placeholder="Enter Tag 2">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Auteur</label>
+            <input type="text" class="form-control" formControlName="auteur" placeholder="Enter Author">
+          </div>
+  
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" formControlName="date">
+          </div>
+  
+          <div class="form-group">
+            <label>Image File</label>
+            <input type="file" class="form-control-file" (change)="onFileChange($event, 'imageFile')">
+          </div>
+  
+          <div class="form-group">
+            <label>Video File</label>
+            <input type="file" class="form-control-file" (change)="onFileChange($event, 'videoFile')">
+          </div>
+  
+          <div class="form-group">
+            <label>Audio File</label>
+            <input type="file" class="form-control-file" (change)="onFileChange($event, 'audioFile')">
+          </div>
+  
+          <div class="form-group">
+            <label>PDF File</label>
+            <input type="file" class="form-control-file" (change)="onFileChange($event, 'pdfFile')">
+          </div>
+  
+          <button type="submit" class="btn btn-primary">Create Course</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
