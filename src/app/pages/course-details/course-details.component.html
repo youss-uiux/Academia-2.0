@@ -1,0 +1,158 @@
+<div class="container mt-4">
+    <div class="card">
+      <div class="card-header text-center">
+        <h3>{{ course.title }}</h3>
+        <p class="text-muted">Par {{ course.auteur }} - {{ course.date | date:'mediumDate' }}</p>
+        <div class="tags mb-2">
+          <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
+          <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
+        </div>
+      </div>
+  
+      <div class="card-body">
+  
+        <div class="description mb-4">
+          <h5>Description</h5>
+          <p>{{ course.description }}</p>
+        </div>
+  
+        <div class="media-section">
+  
+          <!-- Image -->
+          <div *ngIf="course.imageUrl" class="mb-4 text-center">
+            <img [src]="course.imageUrl" alt="Course Image" class="img-fluid rounded">
+          </div>
+  
+          <!-- Video -->
+          <div *ngIf="course.videoUrl" class="mb-4 text-center">
+            <video controls class="w-100">
+              <source [src]="course.videoUrl" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+  
+          <!-- Audio -->
+          <div *ngIf="course.audioUrl" class="mb-4 text-center">
+            <audio controls>
+              <source [src]="course.audioUrl" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+  
+          <!-- PDF -->
+          <div *ngIf="course.pdfUrl" class="mb-4 text-center">
+            <a [href]="course.pdfUrl" target="_blank" class="btn btn-outline-primary">
+              Télécharger le PDF
+            </a>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <div class="row">
+    <div class="col-md-4">
+        <div class="card card-course">
+  
+            <div class="card-body">
+              <div class="author text-center">
+                <h5 class="title">{{ course.title }}</h5>
+                <p class="description text-muted">{{ course.auteur }}</p>
+              </div>
+    
+      
+              <div class="tags text-center mb-2">
+                <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
+                <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
+              </div>
+            </div>
+      
+            <div class="card-footer text-center">
+              <small class="text-muted">
+                {{ course.date | date:'mediumDate' }}
+              </small>
+            </div>
+      
+          </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Team Members</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled team-members">
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-2">
+                  <div class="avatar">
+                    <img src="assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  </div>
+                </div>
+                <div class="col-md-7 col-7">
+                  DJ Khaled
+                  <br />
+                  <span class="text-muted">
+                    <small>Offline</small>
+                  </span>
+                </div>
+                <div class="col-md-3 col-3 text-right">
+                  <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-2">
+                  <div class="avatar">
+                    <img src="assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  </div>
+                </div>
+                <div class="col-md-7 col-7">
+                  Creative Tim
+                  <br />
+                  <span class="text-success">
+                    <small>Available</small>
+                  </span>
+                </div>
+                <div class="col-md-3 col-3 text-right">
+                  <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="row">
+                <div class="col-md-2 col-2">
+                  <div class="avatar">
+                    <img src="assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                  </div>
+                </div>
+                <div class="col-ms-7 col-7">
+                  Flume
+                  <br />
+                  <span class="text-danger">
+                    <small>Busy</small>
+                  </span>
+                </div>
+                <div class="col-md-3 col-3 text-right">
+                  <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card card-user">
+        <div class="card-header">
+          <h5 class="card-title">Description</h5>
+        </div>
+        <div class="card-body">
+            {{ course.description  }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
