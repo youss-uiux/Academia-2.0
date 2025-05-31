@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
+import { ListCoursesService } from '../list-courses/list-courses.service';
+import { Router } from '@angular/router';
+import { Course } from '../list-courses/list-courses.types';
 
 
 @Component({
@@ -16,8 +19,14 @@ export class DashboardComponent implements OnInit{
   public chartEmail;
   public chartHours;
 
+  totalCourses: number = 0;
+  courses: Course[] = [];
+
+  constructor(private courseService: ListCoursesService, private router: Router) {}
+
     ngOnInit(){
       this.chartColor = "#FFFFFF";
+      this.loadDashboardData();
 
       this.canvas = document.getElementById("chartHours");
       this.ctx = this.canvas.getContext("2d");
@@ -205,5 +214,24 @@ export class DashboardComponent implements OnInit{
         data: speedData,
         options: chartOptions
       });
+    }
+
+    loadDashboardData(): void {
+      this.courseService.getCourses().subscribe(courses => {
+        this.totalCourses = courses.length;
+        this.courses = courses.slice(0, 5); // ici on affiche les 5 derniers
+      });
+    }
+
+    goToCourses(): void {
+      this.router.navigate(['/courses']);
+    }
+  
+    viewCourse(course: Course): void {
+      this.router.navigate(['/courses', course.id]);
+    }
+  
+    goToCreateCourse(): void {
+      this.router.navigate(['/courses/create']);
     }
 }
