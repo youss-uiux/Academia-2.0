@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'user-cmp',
     moduleId: module.id,
-    templateUrl: 'list-courses.component.html'
+    templateUrl: 'list-courses.component.html',
+    styleUrls: ['list-courses.component.css']
 })
 
 export class ListCoursesComponent implements OnInit{

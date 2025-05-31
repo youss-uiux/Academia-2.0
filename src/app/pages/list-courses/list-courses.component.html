@@ -1,35 +1,65 @@
-<div class="row">
-    <div class="col-md-4" *ngFor="let course of courses">
-      <div class="card card-course">
-  
-        <div class="card-body">
-          <div class="author text-center">
-            <h5 class="title">{{ course.title }}</h5>
-            <p class="description text-muted">{{ course.auteur }}</p>
-          </div>
-  
-          <p class="description text-center">
-            {{ course.description | slice:0:100 }}...
-          </p>
-  
-          <div class="tags text-center mb-2">
-            <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
-            <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
-          </div>
+<div class="course-list-container">
+    <!-- Header optionnel si besoin -->
+    
+    <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let course of courses">
+            <div class="card course-card h-100">
+                <!-- Card Header with Image Placeholder -->
+                <div class="card-header p-0" *ngIf="course.imageUrl">
+                    <img [src]="course.imageUrl" class="card-img-top course-thumbnail" alt="{{course.title}} thumbnail">
+                </div>
+                <div class="card-header bg-primary text-white" *ngIf="!course.imageUrl">
+                    <h5 class="mb-0 text-center">{{ course.title | slice:0:20 }}{{course.title.length > 20 ? '...' : ''}}</h5>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body d-flex flex-column">
+                    <div *ngIf="course.imageUrl">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-user-tie mr-1"></i> {{ course.auteur }}
+                        </p>
+                    </div>
+                    
+                    <p class="card-text flex-grow-1">
+                        {{ course.description | slice:0:120 }}{{course.description.length > 120 ? '...' : ''}}
+                    </p>
+                    
+                    <div class="tags mb-3">
+                        <span class="badge badge-pill badge-primary mr-1">{{ course.tag1 }}</span>
+                        <span class="badge badge-pill badge-secondary">{{ course.tag2 }}</span>
+                    </div>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-alt mr-1"></i> {{ course.date | date:'mediumDate' }}
+                        </small>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-outline-primary mr-1" 
+                                    (click)="viewCourse(course)"
+                                    title="View course details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success"
+                                    title="Edit course">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-  
-        <div class="card-footer text-center">
-          <small class="text-muted">
-            {{ course.date | date:'mediumDate' }}
-          </small>
-  
-          <div class="mt-2">
-            <button class="btn btn-sm btn-outline-primary mx-1" (click)="viewCourse(course)">View</button>
-            <button class="btn btn-sm btn-outline-success mx-1" >Edit</button>
-          </div>
-        </div>
-  
-      </div>
     </div>
-  </div>
-  
+
+    <!-- Empty State -->
+    <div class="empty-state text-center py-5" *ngIf="courses.length === 0">
+        <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+        <h4 class="text-muted">No courses available</h4>
+        <p class="text-muted">Create your first course to get started</p>
+        <button class="btn btn-primary">Create Course</button>
+    </div>
+</div>
