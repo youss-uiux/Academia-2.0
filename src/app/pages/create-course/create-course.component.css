@@ -1,0 +1,53 @@
+/* Ajoutez ceci dans votre fichier CSS global ou dans les styles du composant */
+.custom-file-upload {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.media-preview {
+    text-align: center;
+    padding: 10px;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.preview-image {
+    max-width: 300px;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.preview-video {
+    max-width: 300px;
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.preview-audio {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.btn-outline-secondary {
+    transition: all 0.3s;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
