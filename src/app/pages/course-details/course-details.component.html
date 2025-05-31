@@ -1,64 +1,94 @@
-<div class="container mt-4">
+<div class="container mt-4 course-detail-container">
 
-    <!-- Partie haute : Titre + Auteur + Tags + Date + Description -->
-    <div class="card mb-4">
-      <div class="card-body text-center">
-        <h3 class="title">{{ course.title }}</h3>
-        <p class="text-muted mb-1">Auteur : {{ course.auteur }}</p>
-  
-        <div class="tags mb-2">
-          <span class="badge badge-primary mx-1">{{ course.tag1 }}</span>
-          <span class="badge badge-secondary mx-1">{{ course.tag2 }}</span>
+    <!-- En-tête du cours -->
+    <div class="card course-header mb-4">
+        <div class="card-body">
+            <h1 class="course-title text-center mb-3">{{ course.title }}</h1>
+            
+            <div class="course-meta text-center mb-4">
+                <span class="badge badge-pill badge-light mr-2">
+                    <i class="fas fa-user-tie mr-1"></i> {{ course.auteur }}
+                </span>
+                <span class="badge badge-pill badge-light mr-2">
+                    <i class="fas fa-calendar-alt mr-1"></i> {{ course.date | date:'mediumDate' }}
+                </span>
+                
+                <div class="mt-2">
+                    <span class="badge badge-primary mr-1">{{ course.tag1 }}</span>
+                    <span class="badge badge-secondary">{{ course.tag2 }}</span>
+                </div>
+            </div>
+
+            <div class="course-description">
+                <h5 class="section-title"><i class="fas fa-align-left mr-2"></i>Description</h5>
+                <p class="text-justify px-3">{{ course.description }}</p>
+            </div>
         </div>
-  
-        <p class="text-muted">
-          Date : {{ course.date | date:'mediumDate' }}
-        </p>
-      </div>
-  
-      <div class="card-footer">
-        <h5 class="card-title text-center">Description du cours</h5>
-        <div class="px-3 pb-3 text-justify">
-          {{ course.description }}
-        </div>
-      </div>
     </div>
-  
-    <!-- Partie basse : Médias -->
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title text-center">Documents & Médias</h5>
-      </div>
-      <div class="card-body">
-  
-        <!-- Images -->
-        <div  class="text-center mb-4">
-          <img *ngIf="course.imageUrl" [src]="course.imageUrl" class="img-fluid rounded" alt="Image du cours" />
+
+    <!-- Section Médias - Affichage dynamique -->
+    <div class="card media-section" *ngIf="hasMedia()">
+        <div class="card-header bg-light">
+            <h5 class="section-title mb-0">
+                <i class="fas fa-photo-video mr-2"></i>Médias du cours
+            </h5>
         </div>
-  
-        <!-- Vidéos -->
-        <div  class="text-center mb-4">
-          <video *ngIf="course.videoUrl" controls class="w-100">
-            <source [src]="course.videoUrl" type="video/mp4" />
-          </video>
+        
+        <div class="card-body">
+            <!-- Affichage conditionnel avec priorités -->
+            <div class="media-display">
+                <!-- Image en premier si disponible -->
+                <div class="media-item" *ngIf="course.imageUrl">
+                    <div class="media-header">
+                        <i class="fas fa-image mr-2"></i> Image
+                    </div>
+                    <img [src]="course.imageUrl" class="img-fluid rounded media-content" alt="Image du cours" />
+                </div>
+
+                <!-- Vidéo en second si disponible -->
+                <div class="media-item" *ngIf="course.videoUrl">
+                    <div class="media-header">
+                        <i class="fas fa-video mr-2"></i> Vidéo
+                    </div>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video controls class="embed-responsive-item">
+                            <source [src]="course.videoUrl" type="video/mp4" />
+                            Votre navigateur ne supporte pas les vidéos HTML5.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Audio si disponible -->
+                <div class="media-item" *ngIf="course.audioUrl">
+                    <div class="media-header">
+                        <i class="fas fa-music mr-2"></i> Audio
+                    </div>
+                    <div class="audio-player">
+                        <audio controls class="w-100">
+                            <source [src]="course.audioUrl" type="audio/mpeg" />
+                            Votre navigateur ne supporte pas l'audio HTML5.
+                        </audio>
+                    </div>
+                </div>
+
+                <!-- PDF si disponible -->
+                <div class="media-item" *ngIf="course.pdfUrl">
+                    <div class="media-header">
+                        <i class="fas fa-file-pdf mr-2"></i> Document PDF
+                    </div>
+                    <div class="pdf-preview">
+                        <a [href]="course.pdfUrl" target="_blank" class="btn btn-danger btn-block">
+                            <i class="fas fa-file-download mr-2"></i> Télécharger le PDF
+                        </a>
+                        <small class="text-muted d-block mt-2">Taille: {{ getFileSize(course.pdfUrl) }}</small>
+                    </div>
+                </div>
+            </div>
         </div>
-  
-        <!-- Audios -->
-        <div  class="text-center mb-4">
-          <audio *ngIf="course.audioUrl" controls>
-            <source [src]="course.audioUrl" type="audio/mpeg" />
-          </audio>
-        </div>
-  
-        <!-- PDFs -->
-        <div class="text-center mb-4">
-          <a *ngIf="course.pdfUrl" [href]="course.pdfUrl" target="_blank" class="btn btn-outline-primary">
-            Télécharger le PDF ({{course.pdfUrl }})
-          </a>
-        </div>
-  
-      </div>
     </div>
-  
-  </div>
-  
+
+    <!-- Message si aucun média -->
+    <div class="alert alert-info mt-4" *ngIf="!hasMedia()">
+        <i class="fas fa-info-circle mr-2"></i> Ce cours ne contient pas encore de médias.
+    </div>
+</div>

@@ -12,7 +12,8 @@ interface MediaItem {
 
 @Component({
   selector: 'app-course-detail',
-  templateUrl: 'course-details.component.html'
+  templateUrl: 'course-details.component.html',
+  styleUrls: ['course-details.component.css'],
 })
 export class CourseDetailsComponent implements OnInit {
   course!: Course;
@@ -104,4 +105,14 @@ export class CourseDetailsComponent implements OnInit {
   getMediaByType(type: string): MediaItem[] {
     return this.mediaItems.filter(item => item.type === type);
   }
+
+  hasMedia(): boolean {
+    return !!this.course.imageUrl || !!this.course.videoUrl || !!this.course.audioUrl || !!this.course.pdfUrl;
+}
+
+getFileSize(url: string): string {
+    // Implémentez la logique pour obtenir la taille du fichier si possible
+    // Par exemple via une API ou en connaissant les tailles à l'avance
+    return '~2.5 MB'; // Valeur par défaut
+}
 }
