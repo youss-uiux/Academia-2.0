@@ -8,7 +8,8 @@ import { Course } from '../list-courses/list-courses.types';
 @Component({
     selector: 'dashboard-cmp',
     moduleId: module.id,
-    templateUrl: 'dashboard.component.html'
+    templateUrl: 'dashboard.component.html',
+    styleUrls: ['dashboard.component.css']
 })
 
 export class DashboardComponent implements OnInit{
@@ -224,11 +225,11 @@ export class DashboardComponent implements OnInit{
     }
 
     goToCourses(): void {
-      this.router.navigate(['/courses']);
+      this.router.navigate(['/list-courses']);
     }
   
     viewCourse(course: Course): void {
-      this.router.navigate(['/courses', course.id]);
+      this.router.navigate(['course',course.id]);
     }
   
     goToCreateCourse(): void {
