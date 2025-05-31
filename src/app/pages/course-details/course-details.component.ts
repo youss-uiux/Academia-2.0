@@ -29,8 +29,6 @@ export class CourseDetailsComponent implements OnInit {
     this.courseService.getCourseById(courseId).subscribe({
       next: (data) => {
         this.course = data;
-        this.initMediaItems();
-        this.loadAllMedia();
       },
       error: (err) => console.error(err)
     });

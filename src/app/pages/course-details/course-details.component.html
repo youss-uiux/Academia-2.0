@@ -32,28 +32,28 @@
       <div class="card-body">
   
         <!-- Images -->
-        <div *ngFor="let media of getMediaByType('image')" class="text-center mb-4">
-          <img *ngIf="media.blobUrl" [src]="media.blobUrl" class="img-fluid rounded" alt="Image du cours" />
+        <div  class="text-center mb-4">
+          <img *ngIf="course.imageUrl" [src]="course.imageUrl" class="img-fluid rounded" alt="Image du cours" />
         </div>
   
         <!-- Vidéos -->
-        <div *ngFor="let media of getMediaByType('video')" class="text-center mb-4">
-          <video *ngIf="media.blobUrl" controls class="w-100">
-            <source [src]="media.blobUrl" type="video/mp4" />
+        <div  class="text-center mb-4">
+          <video *ngIf="course.videoUrl" controls class="w-100">
+            <source [src]="course.videoUrl" type="video/mp4" />
           </video>
         </div>
   
         <!-- Audios -->
-        <div *ngFor="let media of getMediaByType('audio')" class="text-center mb-4">
-          <audio *ngIf="media.blobUrl" controls>
-            <source [src]="media.blobUrl" type="audio/mpeg" />
+        <div  class="text-center mb-4">
+          <audio *ngIf="course.audioUrl" controls>
+            <source [src]="course.audioUrl" type="audio/mpeg" />
           </audio>
         </div>
   
         <!-- PDFs -->
-        <div *ngFor="let media of getMediaByType('pdf')" class="text-center mb-4">
-          <a *ngIf="media.blobUrl" [href]="media.blobUrl" target="_blank" class="btn btn-outline-primary">
-            Télécharger le PDF ({{ media.filename }})
+        <div class="text-center mb-4">
+          <a *ngIf="course.pdfUrl" [href]="course.pdfUrl" target="_blank" class="btn btn-outline-primary">
+            Télécharger le PDF ({{course.pdfUrl }})
           </a>
         </div>
   
